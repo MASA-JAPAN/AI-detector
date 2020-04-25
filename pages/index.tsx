@@ -1,8 +1,17 @@
+import Router from "next/router";
+
 const IndexPage = () => (
   <div>
     <div className="title">WIT</div>
     <div className="description">What is this?</div>
-    <div className="startButton">
+    <div
+      className="startButton"
+      onClick={() =>
+        Router.push({
+          pathname: "/detect",
+        })
+      }
+    >
       <div className="startRectangle">
         <div className="textStart">Start</div>
       </div>

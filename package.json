@@ -10,6 +10,8 @@
   "dependencies": {
     "@material-ui/core": "^4.9.11",
     "@material-ui/icons": "^4.9.1",
+    "@tensorflow-models/mobilenet": "^2.0.4",
+    "@tensorflow/tfjs": "^1.7.3",
     "isomorphic-unfetch": "3.0.0",
     "next": "latest",
     "react": "^16.12.0",
