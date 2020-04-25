@@ -1,10 +1,15 @@
 import React from "react";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
+// import * as tf from "@tensorflow/tfjs";
+import * as mobilenet from "@tensorflow-models/mobilenet";
 
 export default function Detect() {
   const inputEl = React.useRef<HTMLInputElement>(null);
   const imgEl = React.useRef<HTMLImageElement>(null);
+  const [result, setResult] = React.useState<
+    { className: string; probability: number }[]
+  >([]);
 
   React.useEffect(() => {
     clickFileInput();
@@ -16,15 +21,18 @@ export default function Detect() {
     }
   };
 
-  const loadFile = (event: any) => {
+  const loadFile = async (event: any) => {
     if (imgEl.current) {
-      console.log(event.target.files[0]);
-
       imgEl.current.src = URL.createObjectURL(event.target.files[0]);
     }
-  };
 
-  //filter: drop-shadow(2px 4px 6px black);
+    const net = await mobilenet.load();
+
+    if (net && imgEl.current) {
+      setResult(await net.classify(imgEl.current));
+    }
+    console.log(result);
+  };
 
   return (
     <div>
@@ -37,7 +45,7 @@ export default function Detect() {
       />
 
       <div className="board">
-        <div className="message">Is this xxxx?</div>
+        <div className="message">Is this xxxx? {JSON.stringify(result)}</div>
       </div>
 
       <div className="imageDiv">
@@ -90,8 +98,14 @@ export default function Detect() {
           }
 
           .image {
-            max-width: 96vw;
+             {
+              /* max-width: 96vw; */
+            }
             filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+            width: 96%;
+            height: 50%;
+            max-width: 96vw;
+            max-height: 87vh;
           }
 
           .goodButton {
