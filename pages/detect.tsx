@@ -10,7 +10,11 @@ export default function Detect() {
   const [result, setResult] = React.useState<
     { className: string; probability: number }[]
   >([{ className: "", probability: 0 }]);
-  const [message, setMessage] = React.useState<String>("Please wait...");
+  const [message, setMessage] = React.useState<{
+    messageContent: string;
+    predictNumber: any;
+  }>({ messageContent: "Please wait...", predictNumber: null });
+  const [loaded, setLoaded] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     clickFileInput();
@@ -19,6 +23,34 @@ export default function Detect() {
   const clickFileInput = () => {
     if (inputEl.current) {
       inputEl.current.click();
+    }
+  };
+
+  const clickGoodButton = () => {
+    setMessage({
+      messageContent:
+        "Great! This is " +
+        result[message.predictNumber].className.split(",")[0] +
+        ".",
+      predictNumber: message.predictNumber,
+    });
+  };
+
+  const clickBadButton = () => {
+    message.predictNumber++;
+    if (message.predictNumber <= 2) {
+      setMessage({
+        messageContent:
+          "Is this " +
+          result[message.predictNumber].className.split(",")[0] +
+          " ?",
+        predictNumber: message.predictNumber,
+      });
+    } else {
+      setMessage({
+        messageContent: "Sorry, I don't know...",
+        predictNumber: null,
+      });
     }
   };
 
@@ -32,9 +64,15 @@ export default function Detect() {
     if (net && imgEl.current) {
       const tmpResult = await net.classify(imgEl.current);
       setResult(tmpResult);
-      setMessage("Is this " + tmpResult[0].className.split(",")[0] + " ?");
-      console.log(result);
+      setMessage({
+        messageContent:
+          "Is this " + tmpResult[0].className.split(",")[0] + " ?",
+        predictNumber: 0,
+      });
+      console.log(tmpResult);
     }
+
+    setLoaded(true);
   };
 
   return (
@@ -48,20 +86,24 @@ export default function Detect() {
       />
 
       <div className="board">
-        <div className="message">{message}</div>
+        <div className="message">{message.messageContent}</div>
       </div>
 
       <div className="imageDiv">
         <img ref={imgEl} className="image" />
       </div>
 
-      <button className="goodButton">
-        <ThumbUpIcon fontSize="large" />
-      </button>
+      {loaded && (
+        <div>
+          <button className="goodButton" onClick={clickGoodButton}>
+            <ThumbUpIcon fontSize="large" />
+          </button>
 
-      <button className="badButton">
-        <ThumbDownIcon fontSize="large" />
-      </button>
+          <button className="badButton" onClick={clickBadButton}>
+            <ThumbDownIcon fontSize="large" />
+          </button>
+        </div>
+      )}
 
       <style jsx>
         {`
