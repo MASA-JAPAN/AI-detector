@@ -9,7 +9,8 @@ export default function Detect() {
   const imgEl = React.useRef<HTMLImageElement>(null);
   const [result, setResult] = React.useState<
     { className: string; probability: number }[]
-  >([]);
+  >([{ className: "", probability: 0 }]);
+  const [message, setMessage] = React.useState<String>("Please wait...");
 
   React.useEffect(() => {
     clickFileInput();
@@ -29,9 +30,11 @@ export default function Detect() {
     const net = await mobilenet.load();
 
     if (net && imgEl.current) {
-      setResult(await net.classify(imgEl.current));
+      const tmpResult = await net.classify(imgEl.current);
+      setResult(tmpResult);
+      setMessage("Is this " + tmpResult[0].className.split(",")[0] + " ?");
+      console.log(result);
     }
-    console.log(result);
   };
 
   return (
@@ -45,7 +48,7 @@ export default function Detect() {
       />
 
       <div className="board">
-        <div className="message">Is this xxxx? {JSON.stringify(result)}</div>
+        <div className="message">{message}</div>
       </div>
 
       <div className="imageDiv">
