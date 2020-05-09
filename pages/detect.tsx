@@ -13,11 +13,16 @@ export default function Detect() {
   const [message, setMessage] = React.useState<{
     messageContent: string;
     predictNumber: any;
-  }>({ messageContent: "Please take a picture.", predictNumber: null });
+  }>({ messageContent: "", predictNumber: null });
   const [loaded, setLoaded] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    clickFileInput();
+    const init = async () => {
+      await typingMessage("Please take a picture.", null);
+      clickFileInput();
+    };
+
+    init();
   }, []);
 
   const clickFileInput = () => {
@@ -38,23 +43,19 @@ export default function Detect() {
   const clickBadButton = () => {
     message.predictNumber++;
     if (message.predictNumber <= 2) {
-      setMessage({
-        messageContent:
-          "Is this " +
+      typingMessage(
+        "Is this " +
           result[message.predictNumber].className.split(",")[0] +
           " ?",
-        predictNumber: message.predictNumber,
-      });
+        message.predictNumber
+      );
     } else {
-      setMessage({
-        messageContent: "Sorry, I don't know...",
-        predictNumber: null,
-      });
+      typingMessage("Sorry, I don't know...", null);
     }
   };
 
   const loadFile = async (event: any) => {
-    setMessage({ messageContent: "Now loading...", predictNumber: null });
+    typingMessage("Now loading...", null);
 
     if (imgEl.current) {
       imgEl.current.src = URL.createObjectURL(event.target.files[0]);
@@ -65,20 +66,19 @@ export default function Detect() {
     if (net && imgEl.current) {
       const tmpResult = await net.classify(imgEl.current);
       setResult(tmpResult);
-      setMessage({
-        messageContent:
-          "Is this " + tmpResult[0].className.split(",")[0] + " ?",
-        predictNumber: 0,
-      });
-      console.log(tmpResult);
+
+      typingMessage(
+        "Is this " + tmpResult[0].className.split(",")[0] + " ?",
+        0
+      );
     }
 
     setLoaded(true);
   };
 
   const typingMessage = async (messageText: string, tmpPredictNumber: any) => {
-    for (let i = 1; i < messageText.length; i++) {
-      await delay(100);
+    for (let i = 1; i <= messageText.length; i++) {
+      await delay(50);
 
       setMessage({
         messageContent: messageText.substr(0, i),
@@ -127,7 +127,7 @@ export default function Detect() {
             display: none;
           }
           .board {
-            position: fixed;
+            position: absolute;
             width: 98vw;
             height: 58px;
             left: calc(50% - 98vw / 2);
@@ -140,14 +140,20 @@ export default function Detect() {
             border-radius: 10px;
           }
           .message {
+            position: absolute;
+            width: 100%;
+
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
             font-family: "Press Start 2P", cursive;
             font-style: normal;
             font-weight: 500;
             font-size: 25px;
 
-            align-items: center;
             text-align: center;
-            margin: auto;
+            vertical-align: middle;
 
             color: #000000;
           }
