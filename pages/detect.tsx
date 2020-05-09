@@ -13,7 +13,7 @@ export default function Detect() {
   const [message, setMessage] = React.useState<{
     messageContent: string;
     predictNumber: any;
-  }>({ messageContent: "Please wait...", predictNumber: null });
+  }>({ messageContent: "Please take a picture.", predictNumber: null });
   const [loaded, setLoaded] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -27,13 +27,12 @@ export default function Detect() {
   };
 
   const clickGoodButton = () => {
-    setMessage({
-      messageContent:
-        "Great! This is " +
+    typingMessage(
+      "Great! This is " +
         result[message.predictNumber].className.split(",")[0] +
         ".",
-      predictNumber: message.predictNumber,
-    });
+      message.predictNumber
+    );
   };
 
   const clickBadButton = () => {
@@ -55,6 +54,8 @@ export default function Detect() {
   };
 
   const loadFile = async (event: any) => {
+    setMessage({ messageContent: "Now loading...", predictNumber: null });
+
     if (imgEl.current) {
       imgEl.current.src = URL.createObjectURL(event.target.files[0]);
     }
@@ -73,6 +74,21 @@ export default function Detect() {
     }
 
     setLoaded(true);
+  };
+
+  const typingMessage = async (messageText: string, tmpPredictNumber: any) => {
+    for (let i = 1; i < messageText.length; i++) {
+      await delay(100);
+
+      setMessage({
+        messageContent: messageText.substr(0, i),
+        predictNumber: tmpPredictNumber,
+      });
+    }
+  };
+
+  const delay = (ms: number) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   };
 
   return (
@@ -124,10 +140,10 @@ export default function Detect() {
             border-radius: 10px;
           }
           .message {
-            font-family: Roboto;
+            font-family: "Press Start 2P", cursive;
             font-style: normal;
             font-weight: 500;
-            font-size: 35px;
+            font-size: 25px;
 
             align-items: center;
             text-align: center;
