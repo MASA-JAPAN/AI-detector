@@ -2,8 +2,11 @@ import React from "react";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from "@material-ui/icons/Close";
 // import * as tf from "@tensorflow/tfjs";
 import * as mobilenet from "@tensorflow-models/mobilenet";
+
+import Router from "next/router";
 
 export default function Detect() {
   const inputEl = React.useRef<HTMLInputElement>(null);
@@ -12,6 +15,9 @@ export default function Detect() {
   const goodButtonEl = React.useRef<HTMLButtonElement>(null);
   const badButtonEl = React.useRef<HTMLButtonElement>(null);
   const menuButtonEl = React.useRef<HTMLButtonElement>(null);
+  const homeButtonEl = React.useRef<HTMLButtonElement>(null);
+  // const confirmationEl = React.useRef<HTMLDivElement>(null);
+  const uploadButtonEl = React.useRef<HTMLButtonElement>(null);
   const modalEl = React.useRef<HTMLDivElement>(null);
   const [result, setResult] = React.useState<
     { className: string; probability: number }[]
@@ -52,6 +58,9 @@ export default function Detect() {
     detextedTextEl.current?.classList.toggle("detectedNameAnimRunning");
     goodButtonEl.current?.classList.toggle("buttonHidden");
     badButtonEl.current?.classList.toggle("buttonHidden");
+
+    menuButtonEl.current?.classList.remove("hidden");
+    menuButtonEl.current?.classList.add("show");
   };
 
   const clickBadButton = () => {
@@ -69,7 +78,27 @@ export default function Detect() {
   };
 
   const clickMenuButton = () => {
-    modalEl.current?.classList.toggle("show");
+    modalEl.current?.classList.remove("hidden");
+    modalEl.current?.classList.add("show");
+    menuButtonEl.current?.classList.remove("show");
+    menuButtonEl.current?.classList.add("hidden");
+  };
+
+  const clickCloseButton = () => {
+    modalEl.current?.classList.remove("show");
+
+    modalEl.current?.classList.add("hidden");
+    menuButtonEl.current?.classList.remove("hidden");
+    menuButtonEl.current?.classList.add("show");
+
+    // uploadButtonEl.current?.classList.remove("uploadButtonAfterClick");
+  };
+
+  const clickUploadButton = () => {
+    // homeButtonEl.current?.classList.add("hidden");
+    // confirmationEl.current?.classList.add("show");
+    // modalEl.current?.classList.add("modalLarge");
+    // uploadButtonEl.current?.classList.add("uploadButtonAfterClick");
   };
 
   const loadFile = async (event: any) => {
@@ -131,8 +160,39 @@ export default function Detect() {
       </div>
 
       <div className="modal" ref={modalEl}>
-        <button className="homeButton">Home</button>
-        <button className="uploadButton">Upload</button>
+        <button
+          className="homeButton"
+          onClick={() =>
+            Router.push({
+              pathname: "/",
+            })
+          }
+          ref={homeButtonEl}
+        >
+          Home
+        </button>
+
+        <button
+          className="uploadButton"
+          ref={uploadButtonEl}
+          onClick={clickUploadButton}
+        >
+          Upload
+        </button>
+        <button className="closeButton" onClick={clickCloseButton}>
+          <CloseIcon fontSize="large"></CloseIcon>
+        </button>
+
+        {/* <div className="textContent" ref={confirmationEl}>
+          <div className="confirmationTitle">Please confirm</div>
+          <div className="confirmationContent">
+            <p>This photo will be public and uploaded to Gallery.</p>
+            <p>If you would like to delete it, it is necessary to apply us.</p>
+          </div>
+          <div className="confirmationCheck">
+            I confirmed! <input type="checkbox" />
+          </div>
+        </div> */}
       </div>
 
       {loaded && (
@@ -155,15 +215,13 @@ export default function Detect() {
         </div>
       )}
 
-      {detectedName && (
-        <button
-          className="menuButton"
-          ref={menuButtonEl}
-          onClick={clickMenuButton}
-        >
-          <MenuIcon fontSize="large" />
-        </button>
-      )}
+      <button
+        className="menuButton"
+        ref={menuButtonEl}
+        onClick={clickMenuButton}
+      >
+        <MenuIcon fontSize="large" />
+      </button>
 
       <style jsx>
         {`
@@ -243,6 +301,11 @@ export default function Detect() {
             animation-play-state: running;
           }
 
+          .hidden {
+            animation: opacity0 0.5s forwards;
+            animation-play-state: running;
+          }
+
           @keyframes detectedNameAnim {
             0% {
               opacity: 0;
@@ -269,7 +332,7 @@ export default function Detect() {
           .modal {
             position: absolute;
             width: 50vh;
-            height: 85vw;
+            height: 45vw;
             top: 50%;
             left: 50%;
             border: 1px solid #c1c1c1;
@@ -277,14 +340,59 @@ export default function Detect() {
             transform: translate(-50%, -50%);
             background: white;
             color: black;
+
             opacity: 0;
+          }
+
+          .modalLarge {
+            animation: modalLargeAnim 1s forwards;
+          }
+
+          @keyframes modalLargeAnim {
+            0% {
+            }
+            100% {
+              height: 60vw;
+              opacity: 1;
+            }
+          }
+
+          .textContent {
+            opacity: 0;
+          }
+
+          .confirmationTitle {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0);
+
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 24px;
+            letter-spacing: 0.1em;
+          }
+
+          .confirmationContent {
+            position: absolute;
+            top: 13%;
+            font-size: 19px;
+            padding: 0 15px;
+          }
+
+          .confirmationCheck {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 24px;
           }
 
           .homeButton {
             position: absolute;
             width: 300px;
             height: 50px;
-            top: 30%;
+            top: 25%;
             left: 50%;
             transform: translate(-50%, 0);
 
@@ -312,7 +420,7 @@ export default function Detect() {
             position: absolute;
             width: 300px;
             height: 50px;
-            top: 50%;
+            top: 55%;
             left: 50%;
             transform: translate(-50%, 0);
 
@@ -334,6 +442,18 @@ export default function Detect() {
             color: #ffffff;
             cursor: pointer;
             outline: none;
+          }
+
+          .uploadButtonAfterClick {
+            animation: uploadButtonAfterClickaAnim 1s forwards;
+          }
+
+          @keyframes uploadButtonAfterClickaAnim {
+            0% {
+            }
+            100% {
+              top: 76%;
+            }
           }
 
           .goodButton {
@@ -394,7 +514,26 @@ export default function Detect() {
             outline: none;
             cursor: pointer;
 
-            animation: opacity1 1s;
+            opacity: 0;
+          }
+
+          .closeButton {
+            position: absolute;
+            padding: 7px 8px;
+            top: 0;
+            right: 0;
+            transform: translate(15px, -20px);
+
+            background: linear-gradient(180deg, #f56767 29.33%, #ff004d 100%);
+            border: 1px solid #cecece;
+            box-sizing: border-box;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+            border-radius: 48px;
+
+            text-align: center;
+            outline: none;
+            cursor: pointer;
           }
 
           .buttonHidden {
