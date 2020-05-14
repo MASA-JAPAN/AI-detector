@@ -5,8 +5,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
 // import * as tf from "@tensorflow/tfjs";
 import * as mobilenet from "@tensorflow-models/mobilenet";
-
 import Router from "next/router";
+import { uploadImage } from "../utils/firebaseUtil";
 
 export default function Detect() {
   const inputEl = React.useRef<HTMLInputElement>(null);
@@ -28,6 +28,7 @@ export default function Detect() {
   }>({ messageContent: "", predictNumber: 0 });
   const [loaded, setLoaded] = React.useState<boolean>(false);
   const [detectedName, setDetectedName] = React.useState<string>("");
+  const [imgFile, setImgFile] = React.useState<string>("");
 
   React.useEffect(() => {
     const init = async () => {
@@ -94,11 +95,8 @@ export default function Detect() {
     // uploadButtonEl.current?.classList.remove("uploadButtonAfterClick");
   };
 
-  const clickUploadButton = () => {
-    // homeButtonEl.current?.classList.add("hidden");
-    // confirmationEl.current?.classList.add("show");
-    // modalEl.current?.classList.add("modalLarge");
-    // uploadButtonEl.current?.classList.add("uploadButtonAfterClick");
+  const clickUploadButton = async () => {
+    await uploadImage(imgFile, detectedName, result);
   };
 
   const loadFile = async (event: any) => {
@@ -106,6 +104,7 @@ export default function Detect() {
 
     if (imgEl.current) {
       imgEl.current.src = URL.createObjectURL(event.target.files[0]);
+      setImgFile(event.target.files[0]);
     }
 
     const net = await mobilenet.load();

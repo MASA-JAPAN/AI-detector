@@ -12,10 +12,16 @@
     "@material-ui/icons": "^4.9.1",
     "@tensorflow-models/mobilenet": "^2.0.4",
     "@tensorflow/tfjs": "^1.7.3",
+    "@types/uuid": "^7.0.3",
+    "dotenv-webpack": "^1.8.0",
+    "firebase": "^7.14.3",
+    "install": "^0.13.0",
     "isomorphic-unfetch": "3.0.0",
     "next": "latest",
+    "npm": "^6.14.5",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react-dom": "^16.12.0",
+    "uuid": "^8.0.0"
   },
   "devDependencies": {
     "@types/node": "^12.12.21",
