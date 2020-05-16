@@ -1,4 +1,5 @@
 import firebase from "firebase/app";
+import "firebase/firestore";
 import "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 
@@ -17,6 +18,7 @@ if (!firebase.apps.length) {
   firebase.app();
 }
 
+const firestore = firebase.firestore();
 const storage = firebase.storage();
 
 const uploadImage = async (
@@ -38,7 +40,25 @@ const uploadImage = async (
       },
     })
     .then(function (snapshot) {
-      console.log(snapshot);
+      console.log(snapshot.metadata.fullPath);
+
+      storageRef
+        .child(snapshot.metadata.fullPath)
+        .getDownloadURL()
+        .then(function (url) {
+          console.log(url);
+          firestore.collection("imageInfos").add({
+            detectedName: detectedName,
+            result0: result[0].className,
+            result1: result[1].className,
+            result2: result[2].className,
+            url: url,
+          });
+        })
+        .catch(function (error) {
+          // Handle any errors
+          console.log(error);
+        });
     })
     .catch(function (error) {
       // The document probably doesn't exist.
@@ -46,4 +66,24 @@ const uploadImage = async (
     });
 };
 
-export { uploadImage };
+const getImageInfos = async () => {
+  let imageInfos: Object[] = new Array();
+  await firestore
+    .collection("imageInfos")
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        imageInfos.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+    })
+    .catch(function (error) {
+      console.log("Error getting documents: ", error);
+    });
+
+  return imageInfos;
+};
+
+export { uploadImage, getImageInfos };

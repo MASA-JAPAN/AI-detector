@@ -20,7 +20,14 @@ const IndexPage = () => (
           <div className="textStart">Start</div>
         </div>
       </div>
-      <div className="galleryButton">
+      <div
+        className="galleryButton"
+        onClick={() =>
+          Router.push({
+            pathname: "/gallery",
+          })
+        }
+      >
         <div className="galleryRectangle">
           <div className="textGallery">Gallery</div>
         </div>
