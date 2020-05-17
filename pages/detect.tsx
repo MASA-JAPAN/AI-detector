@@ -400,10 +400,9 @@ export default function Detect() {
               #0061f2 -22.45%,
               rgba(196, 196, 196, 0) 485.71%
             );
-            border: 1px solid #1a6eec;
+
             box-sizing: border-box;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-            border-radius: 13px;
 
             font-family: Roboto;
             font-style: normal;
@@ -428,10 +427,9 @@ export default function Detect() {
               #101010 -22.45%,
               rgba(196, 196, 196, 0) 485.71%
             );
-            border: 1px solid #333333;
+
             box-sizing: border-box;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-            border-radius: 13px;
 
             font-family: Roboto;
             font-style: normal;
@@ -457,16 +455,15 @@ export default function Detect() {
 
           .goodButton {
             position: absolute;
-            padding: 25px 25px;
+            padding: 15px 15px;
             right: 20px;
             bottom: 20px;
 
-            background: linear-gradient(180deg, #a6f567 29.33%, #dbff00 100%);
-            border: 1px solid #cecece;
+            color: white;
+
+            background: linear-gradient(180deg, #34cc62 29.33%, #add210 100%);
             box-sizing: border-box;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-            border-radius: 48px;
 
             text-align: center;
             outline: none;
@@ -475,18 +472,21 @@ export default function Detect() {
             animation: opacity1 1s;
           }
 
+          .goodButton:active {
+            transform: translateY(2px);
+          }
+
           .badButton {
             position: absolute;
-            padding: 25px 25px;
+            padding: 15px 15px;
             left: 20px;
             bottom: 20px;
 
-            background: linear-gradient(180deg, #f56767 29.33%, #ff004d 100%);
-            border: 1px solid #cecece;
+            color: white;
+
+            background: linear-gradient(180deg, #cc3434 29.33%, #ff279d 100%);
             box-sizing: border-box;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-            border-radius: 48px;
 
             text-align: center;
             outline: none;
@@ -524,11 +524,9 @@ export default function Detect() {
             transform: translate(15px, -20px);
 
             background: linear-gradient(180deg, #f56767 29.33%, #ff004d 100%);
-            border: 1px solid #cecece;
+
             box-sizing: border-box;
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-            border-radius: 48px;
 
             text-align: center;
             outline: none;

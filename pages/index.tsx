@@ -8,7 +8,8 @@ const IndexPage = () => (
       </video>
       <div className="title">WIT</div>
       <div className="description">What is this?</div>
-      <div
+
+      <button
         className="startButton"
         onClick={() =>
           Router.push({
@@ -16,23 +17,20 @@ const IndexPage = () => (
           })
         }
       >
-        <div className="startRectangle">
-          <div className="textStart">Start</div>
-        </div>
-      </div>
-      <div
-        className="galleryButton"
-        onClick={() =>
-          Router.push({
-            pathname: "/gallery",
-          })
-        }
-      >
-        <div className="galleryRectangle">
-          <div className="textGallery">Gallery</div>
-        </div>
-      </div>
+        Start
+      </button>
     </div>
+
+    <button
+      className="galleryButton"
+      onClick={() =>
+        Router.push({
+          pathname: "/gallery",
+        })
+      }
+    >
+      Gallery
+    </button>
 
     <style jsx>
       {`
@@ -115,90 +113,64 @@ const IndexPage = () => (
 
           color: #000000;
         }
+
         .startButton {
           position: absolute;
-          width: 171px;
-          height: 49px;
-          left: calc(50% - 171px / 2);
-          top: calc(50% - 49px / 2 + 42px);
-        }
-        .startRectangle {
-          position: absolute;
-          left: 0%;
-          right: 0%;
-          top: 0%;
-          bottom: 0%;
+          padding: 10px 0;
+          width: 185px;
+          top: 54%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+
+          color: white;
+
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 24px;
+          letter-spacing: 0.1em;
 
           background: linear-gradient(
             180deg,
             #0061f2 -22.45%,
             rgba(196, 196, 196, 0) 485.71%
           );
-          border: 1px solid #1a6eec;
+
           box-sizing: border-box;
           box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-          border-radius: 13px;
+
+          text-align: center;
+          outline: none;
+          cursor: pointer;
         }
-        .textStart {
+
+        .galleryButton {
           position: absolute;
-          width: 119px;
-          height: 31px;
-          left: calc(50% - 119px / 2);
-          top: calc(50% - 31px / 2);
+          padding: 10px 0;
+          width: 185px;
+          top: 63%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+
+          color: white;
 
           font-family: Roboto;
           font-style: normal;
           font-weight: 500;
           font-size: 24px;
-          line-height: 28px;
-          align-items: center;
-          text-align: center;
           letter-spacing: 0.1em;
-
-          color: #ffffff;
-        }
-        .galleryButton {
-          position: absolute;
-          width: 171px;
-          height: 49px;
-          left: calc(50% - 171px / 2);
-          top: calc(50% - 49px / 2 + 120px);
-        }
-
-        .galleryRectangle {
-          position: absolute;
-          left: 0%;
-          right: 0%;
-          top: 0%;
-          bottom: 0%;
 
           background: linear-gradient(
             180deg,
             #101010 -22.45%,
             rgba(196, 196, 196, 0) 485.71%
           );
-          border: 1px solid #333333;
           box-sizing: border-box;
           box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-          border-radius: 13px;
-        }
-        .textGallery {
-          position: absolute;
-          width: 119px;
-          height: 31px;
-          left: calc(50% - 119px / 2);
-          top: calc(50% - 31px / 2);
 
-          font-family: Roboto;
-          font-style: normal;
-          font-weight: 500;
-          font-size: 24px;
-          line-height: 28px;
-          align-items: center;
           text-align: center;
-          letter-spacing: 0.1em;
-
-          color: #ffffff;
+          outline: none;
+          cursor: pointer;
         }
       `}
     </style>
