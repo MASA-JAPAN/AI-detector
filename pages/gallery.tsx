@@ -8,7 +8,19 @@ export default function Gallery(props: any) {
   //   getImageInfos();
   // }, []);
 
-  console.log(props.imageInfos);
+  const modalEl = React.useRef<HTMLDivElement>(null);
+  const [imgURL, setImgURL] = React.useState<string>("");
+  const [captionText, setCaptionText] = React.useState<string>("");
+
+  const clickImg = (imageInfo: any) => {
+    setImgURL(imageInfo.url);
+    setCaptionText(imageInfo.detectedName);
+    modalEl.current?.classList.add("displayBlock");
+  };
+
+  const clickClose = () => {
+    modalEl.current?.classList.remove("displayBlock");
+  };
 
   return (
     <div>
@@ -27,12 +39,35 @@ export default function Gallery(props: any) {
       </div>
       <div className="imagesContainer">
         {props.imageInfos.map((imageInfo: any) => (
-          <div className="imageContainer" key={imageInfo.id}>
+          <div
+            className="imageContainer"
+            key={imageInfo.id}
+            onClick={() => {
+              clickImg(imageInfo);
+            }}
+          >
             <img src={imageInfo.url} alt="" />
             <div className="detectedName">{imageInfo.detectedName}</div>
           </div>
         ))}
       </div>
+
+      {/* Modal */}
+      <div className="modal" ref={modalEl}>
+        {/* close */}
+        <span className="close" onClick={clickClose}>
+          &times;
+        </span>
+
+        <div className="modalImageContainer">
+          {/* modal caption */}
+          <div className="caption">{captionText}</div>
+
+          {/* modal content */}
+          <img className="modal-content" src={imgURL} />
+        </div>
+      </div>
+
       <style jsx>
         {`
           .appBar {
@@ -157,6 +192,90 @@ export default function Gallery(props: any) {
             background: rgba(0, 0, 0, 0.9);
             color: white;
             padding: 0px 15px;
+          }
+
+          /* The Modal (background) */
+          .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+            z-index: 20;
+          }
+
+          .displayBlock {
+            display: block;
+          }
+
+          .modalImageContainer {
+            transform: translate(0, -50px);
+          }
+
+          /* Modal Content (Image) */
+          .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+          }
+
+          /* Caption of Modal Image (Image Text) - Same Width as the Image */
+          .caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            font-size: 30px;
+          }
+
+          /* Add Animation - Zoom in the Modal */
+          .modal-content {
+            animation-name: zoom;
+            animation-duration: 0.6s;
+          }
+
+          @keyframes zoom {
+            from {
+              transform: scale(0);
+            }
+            to {
+              transform: scale(1);
+            }
+          }
+
+          /* The Close Button */
+          .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+          }
+
+          .close:hover,
+          .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+          }
+
+          /* 100% Image Width on Smaller Screens */
+          @media only screen and (max-width: 700px) {
+            .modal-content {
+              width: 100%;
+            }
           }
         `}
       </style>
