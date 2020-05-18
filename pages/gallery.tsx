@@ -127,7 +127,7 @@ export default function Gallery(props: any) {
           }
 
           .homeButton:active {
-            transform: translateY(2px);
+            transform: translate(0, 2px);
           }
 
           .imagesContainer {

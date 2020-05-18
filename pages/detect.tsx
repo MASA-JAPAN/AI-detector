@@ -292,6 +292,10 @@ export default function Detect() {
             cursor: pointer;
           }
 
+          .homeIconButton:active {
+            transform: translate(0, 2px);
+          }
+
           .cameraIconButton {
             padding: 15px 15px;
             margin: 10px 10px;
@@ -308,6 +312,10 @@ export default function Detect() {
             text-align: center;
             outline: none;
             cursor: pointer;
+          }
+
+          .cameraIconButton:active {
+            transform: translate(0, 2px);
           }
 
           .imageDiv {

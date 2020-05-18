@@ -117,10 +117,11 @@ const IndexPage = () => (
         .startButton {
           position: absolute;
           padding: 10px 0;
-          width: 185px;
+          width: 186px;
+          height: 54px;
           top: 54%;
           left: 50%;
-          transform: translate(-50%, -50%);
+          transform: translate(-93px, -27px);
 
           color: white;
 
@@ -144,13 +145,18 @@ const IndexPage = () => (
           cursor: pointer;
         }
 
+        .startButton:active {
+          transform: translate(-93px, -25px);
+        }
+
         .galleryButton {
           position: absolute;
           padding: 10px 0;
-          width: 185px;
+          width: 186px;
+          height: 54px;
           top: 63%;
           left: 50%;
-          transform: translate(-50%, -50%);
+          transform: translate(-93px, -27px);
 
           color: white;
 
@@ -171,6 +177,10 @@ const IndexPage = () => (
           text-align: center;
           outline: none;
           cursor: pointer;
+        }
+
+        .galleryButton:active {
+          transform: translate(-93px, -25px);
         }
       `}
     </style>
