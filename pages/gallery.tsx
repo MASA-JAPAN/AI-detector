@@ -4,10 +4,6 @@ import HomeIcon from "@material-ui/icons/Home";
 import Router from "next/router";
 
 export default function Gallery(props: any) {
-  // React.useEffect(() => {
-  //   getImageInfos();
-  // }, []);
-
   const modalEl = React.useRef<HTMLDivElement>(null);
   const [imgURL, setImgURL] = React.useState<string>("");
   const [captionText, setCaptionText] = React.useState<string>("");
@@ -20,6 +16,12 @@ export default function Gallery(props: any) {
 
   const clickClose = () => {
     modalEl.current?.classList.remove("displayBlock");
+  };
+
+  const showImg = (e: any) => {
+    console.log(e.currentTarget.parentElement);
+    e.currentTarget.parentElement?.classList.remove("displayNone");
+    e.currentTarget.parentElement?.classList.add("displayBlock");
   };
 
   return (
@@ -40,13 +42,19 @@ export default function Gallery(props: any) {
       <div className="imagesContainer">
         {props.imageInfos.map((imageInfo: any) => (
           <div
-            className="imageContainer"
+            className="imageContainer displayNone"
             key={imageInfo.id}
             onClick={() => {
               clickImg(imageInfo);
             }}
           >
-            <img src={imageInfo.url} alt="" />
+            <img
+              src={imageInfo.url}
+              alt=""
+              onLoad={(e) => {
+                showImg(e);
+              }}
+            />
             <div className="detectedName">{imageInfo.detectedName}</div>
           </div>
         ))}
@@ -147,6 +155,17 @@ export default function Gallery(props: any) {
           .imageContainer {
             position: relative;
             margin: 10px 5px;
+            opacity: 0;
+            animation: opacity1 0.5s forwards;
+          }
+
+          @keyframes opacity1 {
+            0% {
+              opacity: 0;
+            }
+            100% {
+              opacity: 1;
+            }
           }
 
           img {
@@ -212,6 +231,10 @@ export default function Gallery(props: any) {
 
           .displayBlock {
             display: block;
+          }
+
+          .displayNone {
+            display: none;
           }
 
           .modalImageContainer {
@@ -285,7 +308,6 @@ export default function Gallery(props: any) {
 
 Gallery.getInitialProps = async () => {
   const imageInfos = await getImageInfos();
-  console.log(imageInfos);
 
   return { imageInfos };
 };
