@@ -3,10 +3,37 @@ import { getImageInfos } from "../utils/firebaseUtil";
 import HomeIcon from "@material-ui/icons/Home";
 import Router from "next/router";
 
-export default function Gallery(props: any) {
+export default function Gallery() {
   const modalEl = React.useRef<HTMLDivElement>(null);
   const [imgURL, setImgURL] = React.useState<string>("");
   const [captionText, setCaptionText] = React.useState<string>("");
+  const [loadSize, setLoadSize] = React.useState<number>(30);
+  const [imageInfos, setImageInfos] = React.useState<object[]>([]);
+
+  React.useEffect(() => {
+    fetchSetImages(loadSize);
+  }, []);
+
+  React.useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  });
+
+  const handleScroll = async () => {
+    if (
+      document.documentElement.scrollHeight -
+        document.documentElement.clientHeight ===
+      window.scrollY
+    ) {
+      const tmpLoadSize = loadSize + 30;
+      await fetchSetImages(tmpLoadSize);
+      setLoadSize(tmpLoadSize);
+    }
+  };
+
+  const fetchSetImages = async (number: any) => {
+    setImageInfos(await getImageInfos(number));
+  };
 
   const clickImg = (imageInfo: any) => {
     setImgURL(imageInfo.url);
@@ -19,7 +46,6 @@ export default function Gallery(props: any) {
   };
 
   const showImg = (e: any) => {
-    console.log(e.currentTarget.parentElement);
     e.currentTarget.parentElement?.classList.remove("displayNone");
     e.currentTarget.parentElement?.classList.add("displayBlock");
   };
@@ -40,7 +66,7 @@ export default function Gallery(props: any) {
         <div className="barTitle">Gallery</div>
       </div>
       <div className="imagesContainer">
-        {props.imageInfos.map((imageInfo: any) => (
+        {imageInfos.map((imageInfo: any) => (
           <div
             className="imageContainer displayNone"
             key={imageInfo.id}
@@ -306,8 +332,8 @@ export default function Gallery(props: any) {
   );
 }
 
-Gallery.getInitialProps = async () => {
-  const imageInfos = await getImageInfos();
+// Gallery.getInitialProps = async () => {
+//   const imageInfos = await getImageInfos();
 
-  return { imageInfos };
-};
+//   return { imageInfos };
+// };

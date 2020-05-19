@@ -66,10 +66,11 @@ const uploadImage = async (
     });
 };
 
-const getImageInfos = async () => {
+const getImageInfos = async (limitNumber: number) => {
   let imageInfos: Object[] = new Array();
   await firestore
     .collection("imageInfos")
+    .limit(limitNumber)
     .get()
     .then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
