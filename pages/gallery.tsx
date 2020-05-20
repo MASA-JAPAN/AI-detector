@@ -5,6 +5,7 @@ import Router from "next/router";
 
 export default function Gallery() {
   const modalEl = React.useRef<HTMLDivElement>(null);
+  const loaderEL = React.useRef<HTMLDivElement>(null);
   const [imgURL, setImgURL] = React.useState<string>("");
   const [captionText, setCaptionText] = React.useState<string>("");
   const [loadSize, setLoadSize] = React.useState<number>(30);
@@ -25,9 +26,11 @@ export default function Gallery() {
         document.documentElement.clientHeight ===
       window.scrollY
     ) {
+      loaderEL.current?.classList.remove("displayNone");
       const tmpLoadSize = loadSize + 30;
       await fetchSetImages(tmpLoadSize);
       setLoadSize(tmpLoadSize);
+      loaderEL.current?.classList.add("displayNone");
     }
   };
 
@@ -99,6 +102,21 @@ export default function Gallery() {
 
           {/* modal content */}
           <img className="modal-content" src={imgURL} />
+        </div>
+      </div>
+
+      {/* loader */}
+      <div className="loaderContainer displayNone" ref={loaderEL}>
+        <div className="loader">
+          <div className="inner one"></div>
+          <div className="inner two"></div>
+          <div className="inner three"></div>
+          <div className="inner four"></div>
+          <div className="inner five"></div>
+          <div className="inner six"></div>
+          <div className="inner seven"></div>
+          <div className="inner eight"></div>
+          <div className="inner five"></div>
         </div>
       </div>
 
@@ -324,6 +342,131 @@ export default function Gallery() {
           @media only screen and (max-width: 700px) {
             .modal-content {
               width: 100%;
+            }
+          }
+
+          /* loader */
+
+          .loaderContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(90, 90, 90, 0.71);
+          }
+
+          .loader {
+            position: absolute;
+            top: calc(50% - 50px);
+            left: calc(50% - 50px);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            perspective: 800px;
+          }
+
+          .inner {
+            position: absolute;
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+          }
+
+          .inner.one {
+            right: 0%;
+            bottom: 0%;
+            animation: rotate-one 1s linear infinite;
+            border-top: 5px solid rgb(108, 162, 255);
+          }
+
+          .inner.two {
+            right: 0%;
+            bottom: 0%;
+            animation: rotate-two 1s linear infinite;
+            border-top: 5px solid rgb(108, 162, 255);
+          }
+
+          .inner.three {
+            right: 0%;
+            bottom: 0%;
+            animation: rotate-three 1s linear infinite;
+            border-top: 5px solid rgb(108, 162, 255);
+          }
+
+          .inner.four {
+            left: 0%;
+            top: 0%;
+            animation: rotate-four 1s linear infinite;
+            border-bottom: 5px solid rgb(108, 162, 255);
+          }
+
+          .inner.five {
+            left: 0%;
+            top: 0%;
+            animation: rotate-five 1s linear infinite;
+            border-bottom: 5px solid rgb(108, 162, 255);
+          }
+
+          .inner.six {
+            left: 0%;
+            top: 0%;
+            animation: rotate-six 1s linear infinite;
+            border-bottom: 5px solid rgb(108, 162, 255);
+          }
+
+          @keyframes rotate-one {
+            0% {
+              transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+            }
+            100% {
+              transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+            }
+          }
+
+          @keyframes rotate-two {
+            0% {
+              transform: rotateX(15deg) rotateY(55deg) rotateZ(0deg);
+            }
+            100% {
+              transform: rotateX(15deg) rotateY(55deg) rotateZ(360deg);
+            }
+          }
+
+          @keyframes rotate-three {
+            0% {
+              transform: rotateX(27deg) rotateY(55deg) rotateZ(0deg);
+            }
+            100% {
+              transform: rotateX(27deg) rotateY(55deg) rotateZ(360deg);
+            }
+          }
+
+          @keyframes rotate-four {
+            0% {
+              transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+            }
+            100% {
+              transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+            }
+          }
+
+          @keyframes rotate-five {
+            0% {
+              transform: rotateX(15deg) rotateY(-45deg) rotateZ(0deg);
+            }
+            100% {
+              transform: rotateX(15deg) rotateY(-45deg) rotateZ(360deg);
+            }
+          }
+
+          @keyframes rotate-six {
+            0% {
+              transform: rotateX(27deg) rotateY(-45deg) rotateZ(0deg);
+            }
+            100% {
+              transform: rotateX(27deg) rotateY(-45deg) rotateZ(360deg);
             }
           }
         `}
