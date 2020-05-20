@@ -114,9 +114,6 @@ export default function Gallery() {
           <div className="inner four"></div>
           <div className="inner five"></div>
           <div className="inner six"></div>
-          <div className="inner seven"></div>
-          <div className="inner eight"></div>
-          <div className="inner five"></div>
         </div>
       </div>
 

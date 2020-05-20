@@ -78,6 +78,14 @@ export default function Detect() {
         message.predictNumber
       );
     } else {
+      goodButtonEl.current?.classList.remove("show");
+      goodButtonEl.current?.classList.add("hidden");
+      badButtonEl.current?.classList.remove("show");
+      badButtonEl.current?.classList.add("hidden");
+
+      homeAndCameraButtonsEl.current?.classList.remove("hidden");
+      homeAndCameraButtonsEl.current?.classList.add("show");
+
       typingMessage("Sorry, I don't know...", null);
     }
   };
