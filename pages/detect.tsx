@@ -20,6 +20,8 @@ export default function Detect() {
   const homeButtonEl = React.useRef<HTMLButtonElement>(null);
   const uploadButtonEl = React.useRef<HTMLButtonElement>(null);
   const modalEl = React.useRef<HTMLDivElement>(null);
+  const modalConfirmationEl = React.useRef<HTMLDivElement>(null);
+  const checkEl = React.useRef<HTMLInputElement>(null);
   const homeAndCameraButtonsEl = React.useRef<HTMLDivElement>(null);
   const [result, setResult] = React.useState<
     { className: string; probability: number }[]
@@ -104,8 +106,30 @@ export default function Detect() {
     menuButtonEl.current?.classList.add("show");
   };
 
+  const clickCloseButtonModalConfirmation = () => {
+    modalConfirmationEl.current?.classList.remove("show");
+    modalConfirmationEl.current?.classList.add("hidden");
+    menuButtonEl.current?.classList.remove("hidden");
+    menuButtonEl.current?.classList.add("show");
+  };
+
   const clickUploadButton = async () => {
+    modalEl.current?.classList.remove("show");
+    modalEl.current?.classList.add("hidden");
+    modalConfirmationEl.current?.classList.remove("hidden");
+    modalConfirmationEl.current?.classList.add("show");
+  };
+
+  const clickUploadButtonWithConfirmation = async () => {
     await uploadImage(imgFile, detectedName, result);
+  };
+
+  const checkValue = () => {
+    if (checkEl.current?.checked) {
+      uploadButtonEl.current?.classList.add("active");
+    } else {
+      uploadButtonEl.current?.classList.remove("active");
+    }
   };
 
   const loadFile = async (event: any) => {
@@ -206,9 +230,37 @@ export default function Detect() {
           ref={uploadButtonEl}
           onClick={clickUploadButton}
         >
-          Upload
+          Move to upload
         </button>
         <button className="closeButton" onClick={clickCloseButton}>
+          <CloseIcon fontSize="large"></CloseIcon>
+        </button>
+      </div>
+
+      <div className="modalConfirmation hidden" ref={modalConfirmationEl}>
+        <div className="confirmationTitle">Please Confirm</div>
+        <div className="confirmationContainer">
+          <p>This photo will be public and uploaded to Gallery.</p>
+          <p>If you would like to delete it, it is necessary to apply us.</p>
+        </div>
+        <div className="checkContainer">
+          <label>
+            I confirmed!
+            <input type="checkbox" ref={checkEl} onClick={checkValue} />
+          </label>
+        </div>
+
+        <button
+          className="uploadButton"
+          ref={uploadButtonEl}
+          onClick={clickUploadButtonWithConfirmation}
+        >
+          Upload
+        </button>
+        <button
+          className="closeButton"
+          onClick={clickCloseButtonModalConfirmation}
+        >
           <CloseIcon fontSize="large"></CloseIcon>
         </button>
       </div>
@@ -411,7 +463,7 @@ export default function Detect() {
             opacity: 0;
           }
 
-          .homeButton {
+          .modal .homeButton {
             position: absolute;
             width: 300px;
             height: 50px;
@@ -438,7 +490,11 @@ export default function Detect() {
             outline: none;
           }
 
-          .uploadButton {
+          .modal .homeButton:active {
+            transform: translate(-50%, 2px);
+          }
+
+          .modal .uploadButton {
             position: absolute;
             width: 300px;
             height: 50px;
@@ -463,6 +519,141 @@ export default function Detect() {
             color: #ffffff;
             cursor: pointer;
             outline: none;
+          }
+
+          .modal .uploadButton:active {
+            transform: translate(-50%, 2px);
+          }
+
+          .modalConfirmation {
+            position: absolute;
+            width: 500px;
+            height: 350px;
+            top: 50%;
+            left: 50%;
+            border: 1px solid #c1c1c1;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            transform: translate(-50%, -50%);
+            background: white;
+            color: black;
+
+            opacity: 0;
+          }
+
+          .modalConfirmation .uploadButton {
+            position: absolute;
+            width: 300px;
+            height: 50px;
+            left: 50%;
+            bottom: 40px;
+            transform: translate(-50%, 0);
+
+            background: linear-gradient(
+              180deg,
+              #c7c7c7 -22.45%,
+              rgba(196, 196, 196, 0) 485.71%
+            );
+
+            box-sizing: border-box;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 24px;
+            letter-spacing: 0.1em;
+            color: #ffffff;
+            cursor: pointer;
+            outline: none;
+
+            transition: all 1s ease-out;
+          }
+
+          .modalConfirmation .active {
+            /*animation: activeAnim 0.5s forwards;*/
+            background: linear-gradient(
+              180deg,
+              #101010 -22.45%,
+              rgba(196, 196, 196, 0) 485.71%
+            );
+          }
+
+          @keyframes activeAnim {
+            0% {
+              background: linear-gradient(
+                180deg,
+                #c7c7c7 -22.45%,
+                rgba(196, 196, 196, 0) 485.71%
+              );
+            }
+
+            100% {
+              background: linear-gradient(
+                180deg,
+                #101010 -22.45%,
+                rgba(196, 196, 196, 0) 485.71%
+              );
+            }
+          }
+
+          .modalConfirmation .uploadButton:active {
+            transform: translate(-50%, 2px);
+          }
+
+          .confirmationTitle {
+            position: absolute;
+            top: 35px;
+            left: 50%;
+            transform: translate(-50%, 0);
+
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 30px;
+
+            letter-spacing: 0.1em;
+          }
+
+          .confirmationContainer {
+            position: absolute;
+            top: 96px;
+            left: 50%;
+            width: 100%;
+            padding-left: 13px;
+
+            transform: translate(-50%, 0);
+          }
+
+          .confirmationContainer p {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 15px;
+            align-items: center;
+            letter-spacing: 0.1em;
+          }
+
+          .checkContainer {
+            position: absolute;
+            top: 195px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            display: flex;
+
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 20px;
+          }
+
+           {
+            /* .checkContainer p {
+            margin: 0;
+          }
+
+          .checkContainer input {
+            margin-left: 5px;
+          } */
           }
 
           .goodButton {
@@ -529,6 +720,10 @@ export default function Detect() {
             opacity: 0;
           }
 
+          .menuButton:active {
+            transform: translate(-50%, 2px);
+          }
+
           .closeButton {
             position: absolute;
             padding: 7px 8px;
@@ -546,6 +741,10 @@ export default function Detect() {
             text-align: center;
             outline: none;
             cursor: pointer;
+          }
+
+          .closeButton:active {
+            transform: translate(15px, -18px);
           }
 
           @keyframes opacity1 {
