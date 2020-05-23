@@ -36,6 +36,7 @@ export default function Gallery() {
 
   const fetchSetImages = async (number: any) => {
     setImageInfos(await getImageInfos(number));
+    loaderEL.current?.classList.add("displayNone");
   };
 
   const clickImg = (imageInfo: any) => {
@@ -106,7 +107,7 @@ export default function Gallery() {
       </div>
 
       {/* loader */}
-      <div className="loaderContainer displayNone" ref={loaderEL}>
+      <div className="loaderContainer " ref={loaderEL}>
         <div className="loader">
           <div className="inner one"></div>
           <div className="inner two"></div>
