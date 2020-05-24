@@ -46,13 +46,25 @@ const uploadImage = async (
         .child(snapshot.metadata.fullPath)
         .getDownloadURL()
         .then(function (url) {
-          console.log(url);
+          const now = new Date();
           firestore.collection("imageInfos").add({
             detectedName: detectedName,
             result0: result[0].className,
             result1: result[1].className,
             result2: result[2].className,
             url: url,
+            createdDate:
+              String(now.getFullYear()) +
+              "-" +
+              String(now.getMonth() + 1) +
+              "-" +
+              String(now.getDate()) +
+              "-" +
+              String(now.getHours()) +
+              "-" +
+              String(now.getMinutes()) +
+              "-" +
+              String(now.getSeconds()),
           });
         })
         .catch(function (error) {
@@ -70,6 +82,7 @@ const getImageInfos = async (limitNumber: number) => {
   let imageInfos: Object[] = new Array();
   await firestore
     .collection("imageInfos")
+    .orderBy("createdDate", "desc")
     .limit(limitNumber)
     .get()
     .then(function (querySnapshot) {
