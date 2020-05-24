@@ -908,6 +908,196 @@ export default function Detect() {
               transform: rotateX(27deg) rotateY(-45deg) rotateZ(360deg);
             }
           }
+
+          @media screen and (max-width: 750px) {
+            .message {
+              font-size: 22px;
+            }
+
+            @keyframes detectedNameAnim {
+              0% {
+                opacity: 0;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 75px;
+              }
+              50% {
+                opacity: 1;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 75px;
+              }
+              100% {
+                top: 0;
+                left: 0;
+                transform: translate(0, 0);
+                font-size: 35px;
+              }
+            }
+          }
+
+          @media screen and (max-width: 630px) {
+            .message {
+              font-size: 18px;
+            }
+
+            @keyframes detectedNameAnim {
+              0% {
+                opacity: 0;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 50px;
+              }
+              50% {
+                opacity: 1;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 75px;
+              }
+              100% {
+                top: 0;
+                left: 0;
+                transform: translate(0, 0);
+                font-size: 27px;
+              }
+            }
+
+            .board {
+              height: 50px;
+            }
+
+            .imageDiv {
+              top: 62px;
+            }
+
+            .modal {
+              width: 400px;
+              height: 300px;
+            }
+          }
+
+          @media screen and (max-width: 500px) {
+            .message {
+              font-size: 14px;
+            }
+
+            @keyframes detectedNameAnim {
+              0% {
+                opacity: 0;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 40px;
+              }
+              50% {
+                opacity: 1;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 40px;
+              }
+              100% {
+                top: 0;
+                left: 0;
+                transform: translate(0, 0);
+                font-size: 20px;
+              }
+            }
+
+            .board {
+              height: 50px;
+            }
+
+            .imageDiv {
+              top: 62px;
+            }
+
+            .modal {
+              width: 400px;
+              height: 300px;
+            }
+          }
+
+          @media screen and (max-width: 450px) {
+            .message {
+              font-size: 14px;
+            }
+
+            @keyframes detectedNameAnim {
+              0% {
+                opacity: 0;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 40px;
+              }
+              50% {
+                opacity: 1;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 40px;
+              }
+              100% {
+                top: 0;
+                left: 0;
+                transform: translate(0, 0);
+                font-size: 20px;
+              }
+            }
+
+            .board {
+              height: 50px;
+            }
+
+            .imageDiv {
+              top: 62px;
+            }
+
+            .modal {
+              width: 300px;
+              height: 300px;
+            }
+
+            .modal .homeButton {
+              width: 250px;
+            }
+
+            .modalConfirmation {
+              width: 300px;
+              height: 300px;
+            }
+
+            .modal .uploadButton {
+              width: 250px;
+            }
+
+            .modalConfirmation .uploadButton {
+              width: 250px;
+              bottom: 30px;
+            }
+
+            .confirmationTitle {
+              font-size: 17px;
+            }
+
+            .confirmationContainer {
+              top: 78px;
+            }
+
+            .confirmationContainer p {
+              font-size: 11px;
+            }
+
+            .checkContainer {
+              top: 180px;
+              font-size: 15px;
+            }
+          }
         `}
       </style>
     </div>

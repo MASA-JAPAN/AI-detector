@@ -467,6 +467,106 @@ export default function Gallery() {
               transform: rotateX(27deg) rotateY(-45deg) rotateZ(360deg);
             }
           }
+
+          @media screen and (max-width: 1200px) {
+            .appBar {
+              height: 64px;
+            }
+
+            .homeButton {
+              padding: 6px 6px;
+              top: 5px;
+              left: 5px;
+            }
+
+            .imagesContainer {
+              top: 74px;
+            }
+
+            .barTitle {
+              font-size: 40px;
+            }
+          }
+
+          @media screen and (max-width: 860px) {
+            .appBar {
+              height: 64px;
+            }
+
+            .homeButton {
+              padding: 6px 6px;
+              top: 5px;
+              left: 5px;
+            }
+
+            .imagesContainer {
+              top: 74px;
+            }
+
+            .barTitle {
+              font-size: 40px;
+            }
+          }
+
+          @media screen and (max-width: 500px) {
+            .appBar {
+              height: 64px;
+            }
+
+            .homeButton {
+              padding: 6px 6px;
+              top: 5px;
+              left: 5px;
+            }
+
+            .imagesContainer {
+              top: 74px;
+            }
+
+            .barTitle {
+              font-size: 35px;
+            }
+          }
+
+          @media screen and (max-width: 420px) {
+            .appBar {
+              height: 64px;
+            }
+
+            .homeButton {
+              padding: 2px 2px;
+              top: 9px;
+              left: 3px;
+            }
+
+            .imagesContainer {
+              top: 74px;
+            }
+
+            .barTitle {
+              font-size: 30px;
+            }
+          }
+
+          @media screen and (max-width: 320px) {
+            .appBar {
+              height: 64px;
+            }
+
+            .homeButton {
+              padding: 2px 2px;
+              top: 9px;
+              left: 3px;
+            }
+
+            .imagesContainer {
+              top: 74px;
+            }
+
+            .barTitle {
+              font-size: 25px;
+            }
+          }
         `}
       </style>
     </div>
