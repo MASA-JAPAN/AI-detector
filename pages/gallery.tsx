@@ -196,7 +196,7 @@ export default function Gallery() {
 
           .imageContainer {
             position: relative;
-            margin: 10px 5px;
+            margin: 0px 3px;
             opacity: 0;
             animation: opacity1 0.5s forwards;
           }
@@ -236,17 +236,18 @@ export default function Gallery() {
               column-count: 2;
             }
           }
-          @media (max-width: 400px) {
+           {
+            /* @media (max-width: 400px) {
             .imagesContainer {
               -moz-column-count: 1;
               -webkit-column-count: 1;
               column-count: 1;
             }
+          } */
           }
 
           .detectedName {
             position: absolute;
-            width: fit-content;
             top: 0;
             left: 0;
             font-size: 20px;

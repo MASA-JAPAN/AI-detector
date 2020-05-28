@@ -22,6 +22,7 @@
     "npm": "^6.14.5",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-video-tag": "0.0.10",
     "uuid": "^8.0.0"
   },
   "devDependencies": {
