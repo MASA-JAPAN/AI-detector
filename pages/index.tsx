@@ -5,7 +5,7 @@ export default function IndexPage() {
   return (
     <div>
       <div className="container">
-        <img src="/videos/top.gif" alt="" className="topGif" />
+        {/* <img src="/videos/top.gif" alt="" className="topGif" /> */}
         <div className="title">WIT</div>
         <div className="description">What is this?</div>
 
@@ -36,7 +36,7 @@ export default function IndexPage() {
       <style jsx>
         {`
           .container {
-            position: relative;
+            position: fixed;
             overflow: hidden;
             width: 100vw;
             height: 100vh;
