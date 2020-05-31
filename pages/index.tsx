@@ -5,7 +5,7 @@ export default function IndexPage() {
   return (
     <div>
       <div className="container">
-        {/* <img src="/videos/top.gif" alt="" className="topGif" /> */}
+        <img src="/videos/top.jpg" alt="" className="topImg" />
         <div className="title">WIT</div>
         <div className="description">What is this?</div>
 
@@ -41,13 +41,18 @@ export default function IndexPage() {
             width: 100vw;
             height: 100vh;
           }
-          .topGif {
+          .topImg {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            min-width: 100vw;
-            min-height: 100vh;
+            top: -160px;
+            max-width: 115vw;
+          }
+
+          @media screen and (max-width: 820px) {
+            .topImg {
+              position: absolute;
+              top: -210px;
+              max-width: 210vw;
+            }
           }
 
           .title {
@@ -113,6 +118,7 @@ export default function IndexPage() {
             text-align: center;
 
             color: #000000;
+            text-shadow: rgb(232, 60, 60) 1px 0 10px;
           }
 
           .buttonContainer {
