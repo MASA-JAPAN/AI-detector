@@ -35,7 +35,9 @@ export default function Gallery() {
   };
 
   const fetchSetImages = async (number: any) => {
-    setImageInfos(await getImageInfos(number));
+    await getImageInfos(number).then((imageInfos) => {
+      setImageInfos(imageInfos);
+    });
     loaderEL.current?.classList.add("displayNone");
   };
 

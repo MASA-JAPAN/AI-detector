@@ -26,58 +26,108 @@ const uploadImage = async (
   detectedName: string,
   result: { className: string; probability: number }[]
 ) => {
-  console.log(process.env.FIREBASE_STORAGE_BUCKET);
-
   const storageRef = storage.ref();
   const saveImageRef = storageRef.child(`detectedImage/${uuidv4()}`);
-  await saveImageRef
-    .put(file, {
-      customMetadata: {
-        detectedName: detectedName,
-        result0: result[0].className,
-        result1: result[1].className,
-        result2: result[2].className,
-      },
-    })
-    .then(function (snapshot) {
-      console.log(snapshot.metadata.fullPath);
 
-      storageRef
-        .child(snapshot.metadata.fullPath)
-        .getDownloadURL()
-        .then(function (url) {
-          const now = new Date();
-          firestore.collection("imageInfos").add({
-            detectedName: detectedName,
-            result0: result[0].className,
-            result1: result[1].className,
-            result2: result[2].className,
-            url: url,
-            createdDate:
-              String(now.getFullYear()) +
-              "-" +
-              String(now.getMonth() + 1) +
-              "-" +
-              String(now.getDate()) +
-              "-" +
-              String(now.getHours()) +
-              "-" +
-              String(now.getMinutes()) +
-              "-" +
-              String(now.getSeconds()),
+  await resizeImage(file, 500, 500).then(async (Blob) => {
+    console.log("aaa");
+
+    await saveImageRef
+      .put(Blob, {
+        customMetadata: {
+          detectedName: detectedName,
+          result0: result[0].className,
+          result1: result[1].className,
+          result2: result[2].className,
+        },
+      })
+      .then(async function (snapshot) {
+        console.log(snapshot.metadata.fullPath);
+
+        await storageRef
+          .child(snapshot.metadata.fullPath)
+          .getDownloadURL()
+          .then(async function (url) {
+            const now = new Date();
+            await firestore.collection("imageInfos").add({
+              detectedName: detectedName,
+              result0: result[0].className,
+              result1: result[1].className,
+              result2: result[2].className,
+              url: url,
+              createdDate:
+                String(now.getFullYear()) +
+                "-" +
+                String(now.getMonth() + 1) +
+                "-" +
+                String(now.getDate()) +
+                "-" +
+                String(now.getHours()) +
+                "-" +
+                String(now.getMinutes()) +
+                "-" +
+                String(now.getSeconds()),
+            });
+          })
+          .catch(function (error) {
+            // Handle any errors
+            console.log(error);
           });
-        })
-        .catch(function (error) {
-          // Handle any errors
-          console.log(error);
-        });
-    })
-    .catch(function (error) {
-      // The document probably doesn't exist.
-      console.error("Error deleting storage: ", error);
-    });
+      })
+      .catch(function (error) {
+        // The document probably doesn't exist.
+        console.error("Error deleting storage: ", error);
+      });
+  });
 };
 
+function resizeImage(
+  file: File,
+  maxWidth: number,
+  maxHeight: number
+): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    let image = new Image();
+    image.src = URL.createObjectURL(file);
+    image.onload = () => {
+      let width = image.width;
+      let height = image.height;
+
+      if (width <= maxWidth && height <= maxHeight) {
+        resolve(file);
+      }
+
+      let newWidth;
+      let newHeight;
+
+      if (width > height) {
+        newHeight = height * (maxWidth / width);
+        newWidth = maxWidth;
+      } else {
+        newWidth = width * (maxHeight / height);
+        newHeight = maxHeight;
+      }
+
+      let canvas = document.createElement("canvas");
+      canvas.width = newWidth;
+      canvas.height = newHeight;
+
+      let context = canvas.getContext("2d");
+
+      if (context) {
+        context.drawImage(image, 0, 0, newWidth, newHeight);
+      }
+
+      canvas.toBlob(function (blob) {
+        // return blob;
+        if (blob) {
+          resolve(blob);
+        }
+      }, file.type);
+    };
+    image.onerror = reject;
+  });
+}
 const getImageInfos = async (limitNumber: number) => {
   let imageInfos: Object[] = new Array();
   await firestore
