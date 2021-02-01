@@ -687,7 +687,7 @@ export default function Detect() {
               position: absolute;
               padding: 15px 15px;
               right: 20px;
-              bottom: 20px;
+              bottom: 100px;
 
               color: white;
 
@@ -706,7 +706,7 @@ export default function Detect() {
               position: absolute;
               padding: 15px 15px;
               left: 20px;
-              bottom: 20px;
+              bottom: 100px;
 
               color: white;
 
